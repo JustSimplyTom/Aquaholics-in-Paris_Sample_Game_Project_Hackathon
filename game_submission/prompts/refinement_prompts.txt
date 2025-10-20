@@ -1,0 +1,5 @@
+# refinement_prompts.txt
+
+Prompts used for debugging and polishing code:
+
+1) "Find logical bugs in the following JS prototype and propose fixes..."

@@ -1,0 +1,67 @@
+#intro-screen {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at center, #e9f0ff, #1b1e2f);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  transition: opacity 1.5s ease;
+}
+
+#intro-text {
+  font-size: 2rem;
+  color: white;
+  text-shadow: 0 0 12px rgba(0,0,0,0.8);
+  animation: fadeInOut 4s ease forwards;
+}
+
+@keyframes fadeInOut {
+  0% { opacity: 0; transform: translateY(10px); }
+  20% { opacity: 1; transform: translateY(0); }
+  80% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-10px); }
+}
+
+:root{
+  --bg:#f4f7fb;
+  --panel:#fff;
+  --accent:#0055a5; /* school-blue */
+  --danger:#c62828;
+  --good:#2e7d32;
+  --muted:#666;
+}
+*{box-sizing:border-box;font-family:Segoe UI, Roboto, Arial, sans-serif}
+body{margin:0;background:linear-gradient(180deg,#e9f0ff, #f4f7fb);color:#222}
+#game{max-width:1000px;margin:24px auto;padding:16px}
+header{display:flex;align-items:center;justify-content:space-between}
+header h1{margin:0;color:var(--accent)}
+.subtitle{margin:0;color:var(--muted)}
+#hud{display:flex;gap:12px;margin-top:12px}
+.stat{background:var(--panel);padding:8px;border-radius:8px;flex:1}
+.stat label{font-size:12px;color:var(--muted)}
+.bar{height:18px;background:#eee;border-radius:6px;margin-top:6px;position:relative}
+#player-strength::after{content:"";position:absolute;left:0;top:0;height:100%;width:40%;background:linear-gradient(90deg,var(--accent),#0088ff);border-radius:6px}
+.personality{height:18px;background:#eee;border-radius:8px;margin-top:6px;position:relative}
+#personality-fill{position:absolute;left:50%;top:0;transform:translateX(-50%);height:100%;width:6px;background:linear-gradient(180deg,#999,#333);border-radius:4px}
+main{display:flex;gap:12px;margin-top:16px}
+#scene{flex:1;background:var(--panel);padding:12px;border-radius:8px;display:flex;gap:12px}
+#npc-area{flex:1}
+#npc-card{background:linear-gradient(180deg,#fff,#f7f9ff);padding:12px;border-radius:8px;border:1px solid #e6eefb}
+.portrait{height:140px;background:repeating-linear-gradient(45deg,#f0f6ff,#eef4ff 10px);border-radius:6px;margin-top:8px}
+#actions{width:320px}
+#action-buttons{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:8px}
+button{padding:8px;border-radius:6px;border:1px solid #c9dff8;background:#fff;cursor:pointer}
+button:active{transform:translateY(1px)}
+#log{margin-top:12px;height:180px;overflow:auto;background:#f8fbff;padding:8px;border-radius:6px;border:1px dashed #dfefff}
+aside#side{width:220px}
+.panel{background:var(--panel);padding:10px;border-radius:8px;margin-bottom:12px}
+#overlay{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.6)}
+#overlay-content{background:var(--panel);padding:20px;border-radius:8px;max-width:560px}
+.hidden{display:none}
+/* Ensure overlay can't block clicks when hidden (stronger rule in case of stylesheet ordering) */
+#overlay.hidden{display:none !important; pointer-events:none !important;}
+#overlay{pointer-events:auto}
+footer{margin-top:12px;color:var(--muted)}
+.end-bad{color:var(--danger)}
+.end-good{color:var(--good)}

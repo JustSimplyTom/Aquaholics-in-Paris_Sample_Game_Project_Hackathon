@@ -1,0 +1,5 @@
+# asset_generation_prompts.txt
+
+Prompts used to generate visuals (replace with actual prompts used with image models):
+
+1) "Generate simple 2D school character sprites (cartoony, non-graphic) with neutral, sad, angry, and surprised expressions. Colors should resemble Vietnamese school uniforms: white shirts, navy pants/skirts, and light blue accents."

@@ -1,0 +1,5 @@
+# code_generation_prompts.txt
+
+Prompts used to generate or refine game code:
+
+1) "Write a small JavaScript prototype for a browser game where the player can choose actions (punch, insult, forgive) against randomly chosen NPCs, and each NPC has a frustration meter that triggers retaliation."

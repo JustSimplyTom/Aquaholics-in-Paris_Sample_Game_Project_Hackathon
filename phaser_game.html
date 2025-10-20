@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>School Bully 2D - Phaser Prototype</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <style>body{margin:0;background:#e9f0ff}#game-container{margin:0 auto;display:block;width:960px;height:540px;}</style>
+  <script src="https://cdn.jsdelivr.net/npm/phaser@3.60.0/dist/phaser.js"></script>
+</head>
+<body>
+  <div id="main-menu" style="width:960px;margin:40px auto 0 auto;padding:32px 0;text-align:center;background:#fff;border-radius:16px;box-shadow:0 4px 32px #0002;">
+    <h1 style="font-family:Arial,sans-serif;font-size:3em;color:#1976d2;margin-bottom:0.2em;">School Bully</h1>
+    <button id="btn-play" style="font-size:1.3em;padding:12px 48px;margin:12px 0 12px 0;border-radius:8px;background:#1976d2;color:#fff;border:none;cursor:pointer;">Play</button><br>
+    <div id="char-popup" style="display:none;position:fixed;left:0;top:0;width:100vw;height:100vh;background:rgba(0,0,0,0.4);z-index:1000;align-items:center;justify-content:center;">
+      <div style="background:#fff;padding:32px 40px;border-radius:16px;min-width:340px;max-width:96vw;box-shadow:0 8px 32px #0004;position:relative;">
+        <button id="close-char" style="position:absolute;right:12px;top:12px;font-size:1.2em;background:none;border:none;cursor:pointer;">✕</button>
+        <div style="display:flex;align-items:center;gap:32px;">
+          <div id="char-preview" style="width:96px;height:96px;background:#e9f0ff;border-radius:12px;display:flex;align-items:center;justify-content:center;"></div>
+          <div>
+            <label>Khuôn mặt:
+              <select id="face-select">
+                <option value="smile">Cười</option>
+                <option value="neutral">Bình thường</option>
+                <option value="sad">Buồn</option>
+              </select>
+            </label><br>
+            <label>Kiểu tóc:
+              <select id="hair-select">
+                <option value="short">Ngắn</option>
+                <option value="long">Dài</option>
+                <option value="spiky">Dựng</option>
+              </select>
+            </label><br>
+            <label>Màu tóc:
+              <input type="color" id="hair-color" value="#222222" />
+            </label><br>
+            <label>Màu áo:
+              <input type="color" id="shirt-color" value="#1976d2" />
+            </label><br>
+            <label>Màu quần:
+              <input type="color" id="pants-color" value="#444444" />
+            </label><br>
+            <button id="save-char" style="margin-top:8px;padding:6px 24px;border-radius:8px;background:#1976d2;color:#fff;border:none;cursor:pointer;">Lưu</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button id="btn-credits" style="font-size:1em;padding:6px 24px;margin:8px 0;border-radius:8px;background:#eee;color:#555;border:none;cursor:pointer;">Credits</button>
+    <div id="credits-panel" style="display:none;margin-top:2em;font-size:1em;color:#333;background:#f8faff;padding:16px 32px;border-radius:8px;max-width:600px;margin-left:auto;margin-right:auto;">
+      <b>Vibe Coding 2025 Project</b><br>
+      The game simulates the consequences of school bullying, inspiring tolerance and empathy.<br>
+      <br>
+      <b>Development team:</b> AquaholicInParis<br>
+      <b>Artwork:</b> AI + Manual Editing<br>
+      <b>Code:</b> HTML, JS, Phaser 3<br>
+      <br>
+      <i>This game is for educational purposes only and does not promote violence.</i>
+    </div>
+  </div>
+  
+  <div id="game-container" style="margin:0 auto;display:block;width:960px;height:540px;display:none;"></div>
+  <script src="phaser_main.js"></script>
+  <script>
+  
+    // Menu logic
+    const menu = document.getElementById('main-menu');
+    const gameDiv = document.getElementById('game-container');
+    document.getElementById('btn-play').onclick = function() {
+      menu.style.display = 'none';
+      gameDiv.style.display = 'block';
+      gameDiv.style.width = '960px';
+      gameDiv.style.height = '540px';
+      gameDiv.style.margin = '0 auto';
+    };
+    // Character customization popup logic
+    const charPopup = document.getElementById('char-popup');
+    const charPreview = document.getElementById('char-preview');
+    const faceSel = document.getElementById('face-select');
+    const hairSel = document.getElementById('hair-select');
+    const hairColor = document.getElementById('hair-color');
+    const shirtColor = document.getElementById('shirt-color');
+    const pantsColor = document.getElementById('pants-color');
+    function drawCharPreview() {
+      // Simple SVG preview (no image asset needed)
+      const face = faceSel.value, hair = hairSel.value;
+      const hc = hairColor.value, sc = shirtColor.value, pc = pantsColor.value;
+      let hairPath = '';
+      if(hair==='short') hairPath = `<rect x='28' y='18' width='40' height='18' rx='8' fill='${hc}'/>`;
+      else if(hair==='long') hairPath = `<ellipse cx='48' cy='38' rx='22' ry='18' fill='${hc}'/>`;
+      else hairPath = `<rect x='22' y='12' width='52' height='18' rx='10' fill='${hc}'/>`;
+      let mouth = '';
+      if(face==='smile') mouth = `<path d='M36 62 Q48 74 60 62' stroke='#a52' stroke-width='3' fill='none'/>`;
+      else if(face==='sad') mouth = `<path d='M36 70 Q48 58 60 70' stroke='#a52' stroke-width='3' fill='none'/>`;
+      else mouth = `<line x1='38' y1='66' x2='58' y2='66' stroke='#a52' stroke-width='3'/>`;
+      charPreview.innerHTML = `<svg width='96' height='96'>
+        <rect x='32' y='40' width='32' height='32' rx='8' fill='${pc}'/>
+        <rect x='32' y='32' width='32' height='24' rx='8' fill='${sc}'/>
+        <circle cx='48' cy='38' r='18' fill='#ffe0b2' stroke='#b88' stroke-width='2'/>
+        ${hairPath}
+        <circle cx='42' cy='36' r='3' fill='#222'/><circle cx='54' cy='36' r='3' fill='#222'/>
+        ${mouth}
+      </svg>`;
+    }
+    [faceSel, hairSel, hairColor, shirtColor, pantsColor].forEach(e=>e.oninput=drawCharPreview);
+    document.getElementById('btn-character').onclick = function() {
+      charPopup.style.display = 'flex';
+      drawCharPreview();
+    };
+    document.getElementById('close-char').onclick = function() { charPopup.style.display = 'none'; };
+    document.getElementById('save-char').onclick = function() {
+      // Save to localStorage
+      const data = {
+        face: faceSel.value,
+        hair: hairSel.value,
+        hairColor: hairColor.value,
+        shirtColor: shirtColor.value,
+        pantsColor: pantsColor.value
+      };
+      localStorage.setItem('playerChar', JSON.stringify(data));
+      charPopup.style.display = 'none';
+      alert('Character saved!');
+    };
+    // On load, restore char
+    window.addEventListener('DOMContentLoaded',()=>{
+      try {
+        const data = JSON.parse(localStorage.getItem('playerChar'));
+        if(data){
+          faceSel.value = data.face;
+          hairSel.value = data.hair;
+          hairColor.value = data.hairColor;
+          shirtColor.value = data.shirtColor;
+          pantsColor.value = data.pantsColor;
+          drawCharPreview();
+        }
+      } catch(e){}
+    });
+    document.getElementById('btn-credits').onclick = function() {
+      const panel = document.getElementById('credits-panel');
+      panel.style.display = (panel.style.display==='none') ? 'block' : 'none';
+    };
+  </script>
+</body>
+</html>

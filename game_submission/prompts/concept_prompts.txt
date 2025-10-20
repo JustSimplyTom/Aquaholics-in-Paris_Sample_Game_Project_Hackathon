@@ -1,0 +1,7 @@
+# concept_prompts.txt
+
+Prompt examples used to brainstorm the game's concept and narrative:
+
+1) "Help me design a short browser-based game (board/card/dice or encounter-based) that teaches players about the social impacts of school bullying in Vietnam. The game should be 2D, front-end only, and produce an emotional reflection at the end." 
+
+2) "Suggest five unique mechanics that connect player choices to social consequences and empathy building in a short play session (5-10 minutes)."
