@@ -93,7 +93,3 @@ npx http-server -p 8000 -c-1
 
 ### Đóng góp
 - Mở Issue/PR mô tả rõ tính năng/sửa lỗi mong muốn. Đính kèm ảnh/chữ ký lỗi (console) khi có thể.
-
----
-
-Bạn muốn tôi tinh chỉnh cân bằng, giao diện, hoặc thêm tính năng nào ngay bây giờ không?
